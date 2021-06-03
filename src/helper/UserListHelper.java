@@ -11,7 +11,15 @@ public abstract class UserListHelper {
     private static String USERS_PATH = null;
     public static UserList readUserList(ServletContext context) {
         
-
+    try {
+            USERS_PATH = context.getRealPath(USERS_FILENAME);
+            ObjectInputStream in = new ObjectInputStream(new
+                    FileInputStream(USERS_PATH));
+            return (UserList)in.readObject();
+        } catch (Exception e) {
+            return new UserList();
+        }
+    }
     public static void saveUserList(UserList users) {
         synchronized (users) {
             try {
